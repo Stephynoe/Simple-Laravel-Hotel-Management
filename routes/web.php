@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Reservation\ReservationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -18,11 +19,7 @@ use Illuminate\Support\Facades\DB;
 Route::get('/', function () {
 
     return view('welcome');
-
-    //getting all users with DB facade
-    // $users = DB::select("select * from users");
-
-    // dd($users);
+    
 });
 
 Route::get('/dashboard', function () {
@@ -33,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/reservation', [ReservationController::class, 'create'])->name('reservation.create');
 });
 
 require __DIR__.'/auth.php';
