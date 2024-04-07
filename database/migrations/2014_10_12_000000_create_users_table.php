@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -25,7 +26,20 @@ return new class extends Migration
                 $table->timestamps();
             });
         }
+
+        // Create a new user
+        User::create([
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => '1',
+            'avatar' => 'avatars/default-avatar.png',
+        ]);
     }
+
+
+
 
     /**
      * Reverse the migrations.

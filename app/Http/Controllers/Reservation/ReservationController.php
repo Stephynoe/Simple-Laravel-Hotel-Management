@@ -14,10 +14,20 @@ class ReservationController extends Controller
 {
     public function dashboard()
     {
-        $email = auth()->user()->email;
-        $reservations = Reservation::where('email', $email)->orderByDesc('id')->paginate(10);
+        $admin = auth()->user()->admin;
 
-        return view('dashboard', ['reservations' => $reservations]);
+        if ($admin == 1){
+
+            $reservations = Reservation::orderByDesc('id')->paginate(10);
+            return view('dashboard', ['reservations' => $reservations]);
+
+        } else {
+            
+            $email = auth()->user()->email;
+            $reservations = Reservation::where('email', $email)->orderByDesc('id')->paginate(10);
+            return view('dashboard', ['reservations' => $reservations]);
+            
+        }
     }
 
     public function generateUniqueCode()
@@ -144,10 +154,17 @@ class ReservationController extends Controller
             if ($booked <= 0) {
 
                 //additional user data
-                $first_name = auth()->user()->first_name;
-                $last_name = auth()->user()->last_name;
-                $name = $first_name.' '.$last_name;
-                $email = auth()->user()->email;
+                $admin = auth()->user()->admin;
+                if ($admin == 1){
+                    $name = $reservation_data->name;
+                    $email = $reservation_data->email;
+                } else {
+                    $first_name = auth()->user()->first_name;
+                    $last_name = auth()->user()->last_name;
+                    $name = $first_name.' '.$last_name;
+                    $email = auth()->user()->email;
+                }
+
                 $total_amount = $lodge * 120;
 
                 //generate unique reservation code
@@ -165,7 +182,7 @@ class ReservationController extends Controller
                         //set the data
                         $data = ([
                             'name' => $name,
-                            'email' => auth()->user()->email,
+                            'email' => $email,
                             'room' => $reservation_data->room,
                             'checkin_date' => $reservation_data->checkin_date,
                             'checkout_date' => $checkout_DateTime,
@@ -204,5 +221,19 @@ class ReservationController extends Controller
 
         
 
+    }
+
+    public function delete($reservationCode)
+    {
+        $admin = auth()->user()->admin;
+
+        if ($admin == 1){
+
+            $deletedRecords = Reservation::where('reservation_code', $reservationCode)->delete();
+
+            $reservations = Reservation::orderByDesc('id')->paginate(10);
+
+            return redirect('dashboard')->with('deleted', "$reservationCode has been deleted");
+        }
     }
 }

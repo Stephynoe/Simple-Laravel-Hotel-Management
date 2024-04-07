@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
+        <a href="{{route('dashboard')}}" class="text-gray-500 dark:text-gray-400">Dasboard</a> > {{ __('Profile') }} 
         </h2>
     </x-slot>
 

@@ -21,7 +21,7 @@
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                 </a>
                 <center>
-                    <a href="/" class="text-white mt-2">
+                    <a href="/" class="text-gray-500 dark:text-gray-400 mt-2">
                         &larr; Go back
                     </a>
                 </center>

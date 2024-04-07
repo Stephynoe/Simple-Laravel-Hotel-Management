@@ -1,10 +1,26 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Hotel Management Customer Dashboard') }}
+            @if (Auth::user()->admin == 1)
+                {{ __('Hotel Management Admin Dashboard') }}
+            @else
+                {{ __('Hotel Management Customer Dashboard') }}
+            @endif
 
         </h2>
     </x-slot>
+
+    @if (session('deleted'))
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        <p style="color:red;font-weight:bold;margin-bottom:1em"> {{session('deleted')}} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     @if( count($reservations) < 1 )
 
@@ -12,7 +28,14 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">You do not have any reservation</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                            @if (Auth::user()->admin == 1)
+                                No reservation
+                            @else
+                                You do not have any reservation
+                            @endif
+                            
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -23,7 +46,14 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">You have {{count($reservations)}} reservation(s)</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                            @if (Auth::user()->admin == 1)
+                                
+                            @else
+                                You have
+                            @endif
+                            {{count($reservations)}} reservation(s)
+                        </h2>
                     </div>
                 </div>
             </div>

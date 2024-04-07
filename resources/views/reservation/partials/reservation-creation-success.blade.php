@@ -20,7 +20,7 @@
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-5">
             <u>{{ __('Reservation Details') }}</u>
         </h2>
-        <ul class="text-white" style="list-style-type:disc;list-style-position:inside;">
+        <ul class="text-gray-500 dark:text-gray-400" style="list-style-type:disc;list-style-position:inside;">
             <li>Reservation Code: <b>{{$reservation->reservation_code}}</b></li>
             <li>Full Name: <b>{{$reservation->name}}</b></li>
             <li>Full Email: <b>{{$reservation->email}}</b></li>
@@ -34,7 +34,7 @@
             <li>Total Amount: <b>£{{$reservation->total_amount}}</b></li>
             <li>Time Created: <b>{{$timeCreated}}</b></li>
         </ul>
-
+        
     </header>   
 
 

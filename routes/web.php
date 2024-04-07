@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/reservation', [ReservationController::class, 'view'])->name('reservation.view');
     Route::post('/reservation/create', [ReservationController::class, 'create'])->name('reservation.create');
+    Route::delete('/reservation/delete/{reservationcode}', [ReservationController::class, 'delete'])->name('reservation.delete');
     Route::get('/reservation/success', function () {
         // Retrieve the session flash data
         $models = session()->get('reservation_models');
@@ -96,9 +97,10 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/dashboard', [ReservationController::class, 'dashboard'])->name('dashboard');
     Route::get('/reservation/detail/{reservationcode}', function ($reservationcode) {
+        $admin = auth()->user()->admin;
         $reservation = Reservation::where('reservation_code', $reservationcode)->first();
         if ($reservation){
-            return view('/reservation/detail', ['reservation' => $reservation]);
+            return view('/reservation/detail', ['reservation' => $reservation, 'is_admin' => $admin]);
         } else {
             return redirect('/dashboard');
         }

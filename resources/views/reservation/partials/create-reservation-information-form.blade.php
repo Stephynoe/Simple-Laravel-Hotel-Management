@@ -7,12 +7,6 @@
         padding: 10px 10px;
     }
 
-    .cs-select, .cs-input {
-        background-color: #111827;
-        color: white;
-        border-radius: 5px;
-        border: 1px solid rgba(255, 255, 255, 0.2)
-    }
 </style>
 <section>
     @if (session('pastdate'))
@@ -51,17 +45,32 @@
 
     <form id="ctreate-reservation" method="post" action="{{ route('reservation.create') }}">
         @csrf
+        @if ($user->admin == 1)
+            <div class="mt-4">
+                <x-input-label for="name" :value="__('Full Name')" />
+                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" value="{{ old('name') }}" required autofocus autocomplete="first_name" />
+                <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            </div>
 
-        <div class="mt-6 space-y-6">
-            <div class="mt-1 block w-full text-white">
-                Name
-                <div class="cs-input">{{$user->first_name}} {{$user->last_name}}</div>
+            <div class="mt-4">
+                <x-input-label for="email" :value="__('Email')" />
+                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" value="{{ old('email') }}" required autofocus autocomplete="first_name" />
+                <x-input-error class="mt-2" :messages="$errors->get('email')" />
             </div>
-            <div class="mt-1 block w-full text-white">
-                Email: 
-                <div class="cs-input">{{$user->email}}</div>
+        @else
+            <div class="mt-6 space-y-6">
+                <div class="mt-1 block w-full">
+                    <x-input-label for="" :value="__('Name')" />
+                    <div class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full cs-input">{{$user->first_name}} {{$user->last_name}}</div>
+                </div>
+                <div class="mt-1 block w-full">
+                    <x-input-label for="" :value="__('Email')" /> 
+                    <div class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full cs-input">{{$user->email}}</div>
+                </div>
             </div>
-        </div>
+        @endif
+
+
 
         <div class="mt-6 space-y-6">
 
@@ -71,7 +80,7 @@
 
             <div>  
                 <x-input-label for="room" :value="__('Room')" />
-                <select id="room" name="room" class="cs-select mt-1 block w-full" required autofocus>
+                <select id="room" name="room" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" required autofocus>
                     <option value="" disabled selected>Select a room</option>
                     <option value="Room 1" {{ old('room') == 'Room 1' ? 'selected' : '' }}>Room 1</option> 
                     <option value="Room 2" {{ old('room') == 'Room 2' ? 'selected' : '' }}>Room 2</option>
@@ -95,7 +104,7 @@
             
             <div>
                 <x-input-label for="days" :value="__('Number of Days to Spend')" />
-                <select id="days" name="days" class="cs-select mt-1 block w-full" required autofocus>
+                <select id="days" name="days" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" required autofocus>
                     <option value="" disabled selected>Select number of days to lodge</option>
                     <option value="1" {{ old('days') == '1' ? 'selected' : '' }}>1</option> 
                     <option value="2" {{ old('days') == '2' ? 'selected' : '' }}>2</option>
@@ -131,7 +140,7 @@
 
             <div>  
                 <x-input-label for="lighting" :value="__('Lighting')" />
-                <select id="lighting" name="lighting" class="cs-select mt-1 block w-full" required autofocus>
+                <select id="lighting" name="lighting" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" required autofocus>
                     <option value="" disabled selected>Select a lighting type</option>
                     <option value="Chandelier" {{ old('lighting') == 'Chandelier' ? 'selected' : '' }}>Chandelier</option> 
                     <option value="Pendant Light" {{ old('lighting') == 'Pendant Light' ? 'selected' : '' }}>Pendant Light</option>
@@ -144,7 +153,7 @@
 
             <div>  
                 <x-input-label for="bedspread" :value="__('Bedspread')" />
-                <select id="bedspread" name="bedspread" class="cs-select mt-1 block w-full" required autofocus>
+                <select id="bedspread" name="bedspread" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" required autofocus>
                     <option value="" disabled selected>Select a preffered beadspread type</option>
                     <option value="Quilts,Coverlets,Blankets,Throwers,3-Pillows" {{ old('bedspread') == 'Quilts,Coverlets,Blankets,Throwers,3-Pillows' ? 'selected' : '' }}>Quilts,Coverlets,Blankets,Throwers,3-Pillows</option> 
                     <option value="Coverlets,Blankets,Throwers,3-Pillows" {{ old('bedspread') == 'Coverlets,Blankets,Throwers,3-Pillows' ? 'selected' : '' }}>Coverlets,Blankets,Throwers,3-Pillows</option>
@@ -156,7 +165,7 @@
 
             <div>  
                 <x-input-label for="heater" :value="__('Heater')" />
-                <select id="heater" name="heater" class="cs-select mt-1 block w-full" required autofocus>
+                <select id="heater" name="heater" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" required autofocus>
                     <option value="" disabled selected>Do you want a heater?</option>
                     <option value="Yes" {{ old('heater') == 'Yes' ? 'selected' : '' }}>Yes</option> 
                     <option value="No" {{ old('heater') == 'No' ? 'selected' : '' }}>No</option>
@@ -166,7 +175,7 @@
 
             <div>  
                 <x-input-label for="air_conditioner" :value="__('Air Conditioner')" />
-                <select id="air_conditioner" name="air_conditioner" class="cs-select mt-1 block w-full" required autofocus>
+                <select id="air_conditioner" name="air_conditioner" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" required autofocus>
                     <option value="" disabled selected>Do you want an Air Conditioner?</option>
                     <option value="Yes" {{ old('air_conditioner') == 'Yes' ? 'selected' : '' }}>Yes</option> 
                     <option value="No" {{ old('air_conditioner') == 'No' ? 'selected' : '' }}>No</option>
@@ -187,25 +196,25 @@
 
                 <div>
                     <x-input-label for="card_number" :value="__('Card Number')" />
-                    <input type="text" id="card_number" name="card_number" class="cs-select mt-1 block w-full" placeholder="xxxx xxxx xxxx xxxx" value="7662 4075 3842 0239" required autofocus>
+                    <input type="text" id="card_number" name="card_number" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" placeholder="xxxx xxxx xxxx xxxx" value="7662 4075 3842 0239" required autofocus>
                     <x-input-error class="mt-2" :messages="$errors->get('card_number')" />
                 </div>
 
                 <div>
                     <x-input-label for="card_expiration" :value="__('Card Expiration')" />
-                    <input type="text" id="card_expiration" name="card_expiration" class="cs-select mt-1 block w-full" placeholder="mm/yy" value="11/27" required autofocus>
+                    <input type="text" id="card_expiration" name="card_expiration" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" placeholder="mm/yy" value="11/27" required autofocus>
                     <x-input-error class="mt-2" :messages="$errors->get('card_expiration')" />
                 </div>
 
                 <div>
                     <x-input-label for="card_cvv" :value="__('Card CVV')" />
-                    <input type="text" id="card_cvv" name="card_cvv" class="cs-select mt-1 block w-full" placeholder="xxxx" value="736" required autofocus>
+                    <input type="text" id="card_cvv" name="card_cvv" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" placeholder="xxxx" value="736" required autofocus>
                     <x-input-error class="mt-2" :messages="$errors->get('card_cvv')" />
                 </div>
 
                 <div>
                     <x-input-label for="card_pin" :value="__('Card PIN')" />
-                    <input type="text" id="card_pin" name="card_pin" class="cs-select mt-1 block w-full" placeholder="xxxx" value="8713" required autofocus>
+                    <input type="text" id="card_pin" name="card_pin" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full" placeholder="xxxx" value="8713" required autofocus>
                     <x-input-error class="mt-2" :messages="$errors->get('card_pin')" />
                 </div>
             </div>
